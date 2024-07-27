@@ -12,7 +12,8 @@ export default {
         const matches = originUrl.match(regexNestedUrl);
         let url;
         if (matches && matches.length > 1) {
-            url = new URL(matches[1]);
+            const nestedUrl = originUrl.substring(originUrl.indexOf(matches[1]));
+            url = new URL(nestedUrl);
             BaseURL = "https://" + url.hostname;
         } else {
             url = new URL(originUrl);
