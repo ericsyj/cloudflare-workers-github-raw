@@ -14,7 +14,7 @@ export default {
         if (matches && matches.length > 1) {
             const nestedUrl = originUrl.substring(originUrl.indexOf(matches[1]));
             url = new URL(nestedUrl);
-            BaseURL = "https://" + url.hostname;
+            BaseURL = "https://" + url.host;
         } else {
             url = new URL(originUrl);
             BaseURL = "https://raw.githubusercontent.com";
