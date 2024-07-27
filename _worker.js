@@ -7,20 +7,18 @@ export default {
      * @returns
      */
     async fetch(request, env) {
-        const originUrl = request.url;
-        const regexNestedUrl = /(https:\/\/[^\/]+\/[^?#]+(?:\?[^#]*)?)/g;
-        const matches = originUrl.match(regexNestedUrl);
+        const originUrl = new URL(request.url);
         let url;
-        if (matches && matches.length > 1) {
-            const nestedUrl = originUrl.substring(originUrl.indexOf(matches[1]));
-            url = new URL(nestedUrl);
+        let temp = originUrl.pathname;
+        const regex = /^\/+/;
+        if (temp.includes("https://")) {
+            temp = temp.replace(regex, "");
+            url = new URL(temp);
             BaseURL = "https://" + url.host;
         } else {
-            url = new URL(originUrl);
+            url = originUrl;
             BaseURL = "https://raw.githubusercontent.com";
         }
-
-        const regex = /^\/+/;
 
         const pathname = url.pathname.replace(regex, "");
         if (pathname) {
