@@ -12,7 +12,7 @@ export default {
         let temp = originUrl.pathname;
         const regex = /^\/+/;
         if (temp.includes("https://")) {
-            temp = temp.replace(regex, "");
+            temp = temp.replace(regex, "") + originUrl.search;
             url = new URL(temp);
             BaseURL = "https://" + url.host;
         } else {
