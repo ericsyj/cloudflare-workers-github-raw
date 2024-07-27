@@ -1,4 +1,4 @@
-const BaseURL = "https://raw.githubusercontent.com";
+let BaseURL;
 
 export default {
     /**
@@ -7,7 +7,17 @@ export default {
      * @returns
      */
     async fetch(request, env) {
-        const url = new URL(request.url);
+        const originUrl = request.url;
+        const regexNestedUrl = /(https:\/\/[^\/]+\/[^?#]+(?:\?[^#]*)?)/g;
+        const matches = originUrl.match(regexNestedUrl);
+        let url;
+        if (matches && matches.length > 1) {
+            url = new URL(matches[1]);
+            BaseURL = "https://" + url.hostname;
+        } else {
+            url = new URL(originUrl);
+            BaseURL = "https://raw.githubusercontent.com";
+        }
 
         const regex = /^\/+/;
 
